@@ -1,3 +1,3 @@
-module github.com/happysongs/api
+module github.com/happysongs/goapi
 
 go 1.17
