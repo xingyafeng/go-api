@@ -1,5 +1,8 @@
 package main
 
+// if statement; condition {
+// }
+
 func test_if(x int) int {
 	var v int
 
