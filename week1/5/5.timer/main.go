@@ -71,7 +71,9 @@ end:
 func main() {
 	// test_time_base()
 	// test_time_range()
-	test_timer()
+	test_time_range2()
+
+	// test_timer()
 }
 
 // 测试基础的time
@@ -99,10 +101,30 @@ func test_time_base() {
 	// 2. time.Timer
 	timer := time.NewTimer(time.Second * 5)
 	fmt.Printf("timer:  %v\n", timer)
+
 }
 
-// 测试
-func test_time_range() {
+// 1 测试 time Ticker
+func test_time_range1() {
+
+	t := time.NewTimer(1 * time.Second)
+	defer t.Stop()
+
+	go func() {
+		for {
+			<-t.C
+			fmt.Println("default ...")
+
+			// 与2 不同需要重置
+			t.Reset(time.Second * 1)
+		}
+	}()
+
+	time.Sleep(time.Second * 4)
+}
+
+//2 测试 time Ticker
+func test_time_range2() {
 
 	jobs := []int{10, 3, 6, 2, 2}
 
@@ -114,8 +136,14 @@ func test_time_range() {
 	for t := range ticker.C {
 		interval := jobs[index]
 		fmt.Printf("第 %v 个任务开始执行，收到的时间戳 %v, 时长 %v s\n", index, t, interval)
-		time.Sleep(time.Duration(interval) * time.Second)
+
+		// 重置时间，不重置就是定义时间
+		// time.Sleep(time.Duration(interval) * time.Second)
+
+		//设置边界保证存在能正常退出循环
 		index = index + 1
+		// index += 1
+		fmt.Println("index:", index)
 		if index == len(jobs) {
 			break
 		}
