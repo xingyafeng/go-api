@@ -7,9 +7,20 @@ import (
 
 func customer(m chan int, down chan bool) {
 
+	select {
+	case ch := <-m:
+		fmt.Println("receiver:", ch)
+		fmt.Println("select -----")
+	case <-down:
+		fmt.Println("child process interrupt ...")
+		return
+	default:
+		fmt.Println("child process default ...")
+	}
+
 	for ch := range m {
 		fmt.Println("receiver:", ch)
-		fmt.Println("-----")
+		fmt.Println("range-----")
 	}
 
 	fmt.Println("-----")
