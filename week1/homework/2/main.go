@@ -38,7 +38,6 @@ func main() {
 	go customer(message, down)
 
 	// 生产者
-
 	for i := 0; i < cap(message); i++ {
 		message <- i
 		fmt.Println("sender: ", i)
